@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MessengerFirebase" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">#0700DF</item>
+        <item name="colorPrimaryDark">#0600B5</item>
+        <item name="android:navigationBarColor">#0600B5</item>
+        <item name="android:textColorPrimary">#FFAA00</item>
+        <item name="android:windowBackground">#E4E4E4</item>
+    </style>
+
+    <style name="Theme.MessengerFirebase" parent="Base.Theme.MessengerFirebase" />
+</resources>
+
+
+<!--    -->
+
+<!--    -->
