@@ -5,7 +5,7 @@
         <item name="colorPrimaryDark">#0600B5</item>
         <item name="android:navigationBarColor">#0600B5</item>
         <item name="android:textColorPrimary">#FFAA00</item>
-        <item name="android:windowBackground">#E4E4E4</item>
+        <item name="android:windowBackground">#DADADA</item>
     </style>
 
     <style name="Theme.MessengerFirebase" parent="Base.Theme.MessengerFirebase" />
