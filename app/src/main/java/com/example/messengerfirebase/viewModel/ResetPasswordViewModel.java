@@ -15,14 +15,19 @@ public class ResetPasswordViewModel extends AndroidViewModel {
 
     private FirebaseAuth auth;
 
-    private final MutableLiveData<String> isSuccess = new MutableLiveData<>();
+    private final MutableLiveData<String> message = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>(false);
 
     public ResetPasswordViewModel(@NonNull Application application) {
         super(application);
         auth = FirebaseAuth.getInstance();
     }
 
-    public LiveData<String> getIsSuccess() {
+    public LiveData<String> getMessage() {
+        return message;
+    }
+
+    public LiveData<Boolean> getIsSuccess() {
         return isSuccess;
     }
 
@@ -31,13 +36,14 @@ public class ResetPasswordViewModel extends AndroidViewModel {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        isSuccess.setValue("Message send in email " + email);
+                        message.setValue("Message send in email " + email);
+                        isSuccess.setValue(true);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        isSuccess.setValue(e.getMessage());
+                        message.setValue(e.getMessage());
                     }
                 });
     }

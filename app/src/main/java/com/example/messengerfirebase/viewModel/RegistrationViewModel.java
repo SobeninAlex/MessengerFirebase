@@ -1,7 +1,6 @@
 package com.example.messengerfirebase.viewModel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,18 +13,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-/**
- * если не используетя контекст (application) то можно наследоваться от ViewModel
- * конструктор в таком случае пустой пустой
- */
-public class LoginViewModel extends AndroidViewModel {
+public class RegistrationViewModel extends AndroidViewModel {
 
     private FirebaseAuth auth;
 
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private final MutableLiveData<String> message = new MutableLiveData<>();
     private final MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
 
-    public LoginViewModel(@NonNull Application application) {
+    public RegistrationViewModel(@NonNull Application application) {
         super(application);
         auth = FirebaseAuth.getInstance();
         auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
@@ -36,25 +31,20 @@ public class LoginViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<String> getErrorMessage() {
-        return errorMessage;
+    public LiveData<String> getMessage() {
+        return message;
     }
+
     public LiveData<FirebaseUser> getUser() {
         return user;
     }
 
-    public void login(String email, String password) {
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                    }
-                })
+    public void registration(String email, String password, String name, String lastName, int age) {
+        auth.createUserWithEmailAndPassword(email, password)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        errorMessage.setValue(e.getMessage());
-                        Log.d("TAG_TAG", e.getMessage());
+                        message.setValue(e.getMessage());
                     }
                 });
     }
