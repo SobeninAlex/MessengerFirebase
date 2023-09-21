@@ -6,22 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ResetPasswordViewModel extends AndroidViewModel {
+public class ResetPasswordViewModel extends ViewModel {
 
-    private FirebaseAuth auth;
-
+    private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private final MutableLiveData<String> message = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>(false);
-
-    public ResetPasswordViewModel(@NonNull Application application) {
-        super(application);
-        auth = FirebaseAuth.getInstance();
-    }
 
     public LiveData<String> getMessage() {
         return message;
