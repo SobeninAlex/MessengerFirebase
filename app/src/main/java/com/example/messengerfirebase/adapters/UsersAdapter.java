@@ -45,7 +45,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
         var user = users.get(position);
 
-        var userInfo = String.format("%s %s, %s", user.getName(), user.getLaseNeme(), user.getAge());
+        var userInfo = String.format("%s %s, %s", user.getName(), user.getLastNeme(), user.getAge());
         holder.textViewUserInfo.setText(userInfo);
 
         int backgroundResID;

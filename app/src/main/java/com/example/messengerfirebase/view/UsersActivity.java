@@ -3,6 +3,7 @@ package com.example.messengerfirebase.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,6 +18,11 @@ import com.example.messengerfirebase.adapters.UsersAdapter;
 import com.example.messengerfirebase.model.User;
 import com.example.messengerfirebase.viewModel.UsersViewModel;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +43,13 @@ public class UsersActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(UsersViewModel.class);
         observeViewModel();
 
-        //для теста
-        List<User> users = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            var user = new User("id " + i, "name " + i, "lastName " + i, i, new Random().nextBoolean());
-            users.add(user);
-        }
-        adapter.setUsers(users);
+        adapter.setOnUserClickListener(new UsersAdapter.OnUserClickListener() {
+            @Override
+            public void onUserClick(User user) {
+                var intent = ChatActivity.newIntent(UsersActivity.this, user);
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -81,6 +87,13 @@ public class UsersActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
+            }
+        });
+
+        viewModel.getUserList().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                adapter.setUsers(users);
             }
         });
     }
