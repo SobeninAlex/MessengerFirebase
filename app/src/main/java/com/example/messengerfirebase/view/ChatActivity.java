@@ -12,17 +12,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.messengerfirebase.R;
+import com.example.messengerfirebase.adapters.MessagesAdapter;
+import com.example.messengerfirebase.model.Message;
 import com.example.messengerfirebase.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
     private static final String USER_EXTRA = "user";
+    private static final String EXTRA_CURRENT_USER_ID = "currentUserID";
 
     private TextView textViewTitle;
     private View onlineStatus;
     private RecyclerView recyclerViewMessages;
     private EditText editTextMessage;
     private ImageView imageViewSendMessage;
+
+    private MessagesAdapter adapter;
+
+    private String currentUserID;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +45,20 @@ public class ChatActivity extends AppCompatActivity {
 
         textViewTitle.setText(userInfo);
 
+        currentUserID = getIntent().getStringExtra(EXTRA_CURRENT_USER_ID);
+        adapter = new MessagesAdapter(currentUserID);
+        recyclerViewMessages.setAdapter(adapter);
+
+        //тест
+        List<Message> messageList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            messageList.add(new Message("text" + i, user.getId(), currentUserID));
+        }
+        for (int i = 0; i < 10; i++) {
+            messageList.add(new Message("text" + i, currentUserID, user.getId() ));
+        }
+        adapter.setMessages(messageList);
+
     }
 
     private void initViews() {
@@ -45,9 +69,10 @@ public class ChatActivity extends AppCompatActivity {
         imageViewSendMessage = findViewById(R.id.imageViewSendMessage);
     }
 
-    public static Intent newIntent(Context context, User user) {
+    public static Intent newIntent(Context context, User user, String currentUserID) {
         var intent = new Intent(context, ChatActivity.class);
         intent.putExtra(USER_EXTRA, user);
+        intent.putExtra(EXTRA_CURRENT_USER_ID, currentUserID);
         return intent;
     }
 }

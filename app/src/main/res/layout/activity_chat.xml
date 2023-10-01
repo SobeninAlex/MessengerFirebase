@@ -58,7 +58,6 @@
         app:layout_constraintBottom_toBottomOf="@id/editTextMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editTextMessage"
-        app:srcCompat="@android:drawable/ic_menu_send"
-        app:tint="@android:color/holo_purple" />
+        app:srcCompat="@android:drawable/ic_menu_send"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
