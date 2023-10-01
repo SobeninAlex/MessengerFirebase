@@ -51,7 +51,6 @@ public class UsersActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void initViews() {
