@@ -1,6 +1,7 @@
 package com.example.messengerfirebase.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,8 +52,6 @@ public class ChatActivity extends AppCompatActivity {
 
         otherUser = (User) getIntent().getSerializableExtra(USER_EXTRA);
         currentUserID = getIntent().getStringExtra(EXTRA_CURRENT_USER_ID);
-        var userInfo = String.format("%s %s, %d", otherUser.getName(), otherUser.getLastNeme(), otherUser.getAge());
-        textViewTitle.setText(userInfo);
 
         viewModelFactory = new ChatViewModelFactory(currentUserID, otherUser.getId());
         viewModel = new ViewModelProvider(this, viewModelFactory).get(ChatViewModel.class);
@@ -68,8 +67,21 @@ public class ChatActivity extends AppCompatActivity {
                 viewModel.sendMessage(message);
             }
         });
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewModel.setUserOnline(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        viewModel.setUserOnline(false);
+    }
+
+
 
     private void observeViewModel() {
         viewModel.getMessagesList().observe(this, messages -> {
@@ -86,6 +98,21 @@ public class ChatActivity extends AppCompatActivity {
             if (isSend) {
                 editTextMessage.setText("");
             }
+        });
+
+        viewModel.getOtherUser().observe(this, user -> {
+            var userInfo = String.format("%s %s, %d", user.getName(), user.getLastNeme(), user.getAge());
+            textViewTitle.setText(userInfo);
+
+            int backgroundID;
+            if (user.isOnline()) {
+                backgroundID = R.drawable.circle_green;
+            }
+            else {
+                backgroundID = R.drawable.circle_red;
+            }
+            var drawable = ContextCompat.getDrawable(this, backgroundID);
+            onlineStatus.setBackground(drawable);
         });
 
     }

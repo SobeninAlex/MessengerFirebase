@@ -62,6 +62,13 @@ public class UsersViewModel extends AndroidViewModel {
         });
     }
 
+    public void setUserOnline(boolean isOnline) {
+        var currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            usersReferance.child(currentUser.getUid()).child("online").setValue(isOnline);
+        }
+    }
+
     public LiveData<List<User>> getUserList() {
         return userList;
     }
@@ -71,6 +78,7 @@ public class UsersViewModel extends AndroidViewModel {
     }
 
     public void logout() {
+        setUserOnline(false);
         auth.signOut();
     }
 
