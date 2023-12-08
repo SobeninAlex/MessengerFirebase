@@ -14,10 +14,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-/**
- * если не используетя контекст (application) то можно наследоваться от ViewModel
- * конструктор в таком случае пустой пустой
- */
 public class LoginViewModel extends AndroidViewModel {
 
     private FirebaseAuth auth;
